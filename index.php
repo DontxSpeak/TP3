@@ -1,10 +1,16 @@
+
 <?php
-include 'connexion.php';
-$sql3 =  "SELECT Count(publication.texte)  FROM publication INNER JOIN utilisateur on publication.fk_utilisateur = utilisateur.pk_utilisateur;";
-$stmt = $bd->prepare($sql3);
-$stmt -> execute(array($num_rows));
-$nbPosts = $stmt->fetchColumn();
-$jsVar = $nbPosts;
+session_start();
+include_once 'connexion.php';
+var_dump($_SESSION['cleUser']);
+
+if(isset($_POST['texteCommentaire']))
+{
+    $nbPublicationsTotales +=1;
+$sql5 = "INSERT INTO publication (pk_publication,texte,fk_publication,fk_type_publication,fk_utilisateur,fk_specialite)
+VALUES ('".$nbPublicationsTotales."', '".$_POST['texteCommentaire']."','".$_POST['clePub'].",'".$_SESSION['cleUser']."', '".$_POST['specialite']."')";
+}
+
 ?>
 
     <!DOCTYPE html>
@@ -16,8 +22,8 @@ $jsVar = $nbPosts;
             color: dodgerblue;
         }
 
-        .publication<?php echo $nbPosts;
-        ?> {
+        .publication
+       {
             background-color: lightgrey;
             width: 800px;
             padding: 20px;
@@ -27,7 +33,7 @@ $jsVar = $nbPosts;
         }
 
 
-        .reponse<?php echo $nbPosts?> {
+        .reponse {
             background-color: lightgray;
             width: 800px;
             padding: 20px;
@@ -39,7 +45,7 @@ $jsVar = $nbPosts;
             border-right: solid 1px #000;
         }
 
-        .ajouterReponse<?php echo $nbPosts?> {
+        .ajouterReponse {
             background-color: lightgray;
             width: 800px;
             padding: 20px;
@@ -84,67 +90,54 @@ $jsVar = $nbPosts;
         <br/>
         <br/>
         <div class="border">
-            <?php while($nbPosts >= 0){?>
-            <div class="publication<?php echo $nbPosts;?>">
+            <?php
+       foreach($listePub as $pub)
+	{?>
+            <div class="publication">
                 <div style="width:700px;margin-left:50px;margin-top:20px;">
                     <p style="font-weight: bold;">
-                        <?= $listePub[$nbPosts]['texte'];?>
+                        <?php echo $pub['texte']; ?>
                     </p>
 
                     <i class="glyphicon glyphicon-user"></i>
                     <h9>
-                        <?= $listeUsers[$nbPosts]['prenom'];?>
-                            <?= $listeUsers[$nbPosts]['nom'];?>
+                        <?php echo $pub['prenom']; ?>
+                            <?php echo $pub['nom'] ?>
                     </h9>
                 </div>
-            </div>
-            <div class="reponse<?php echo $nbPosts?>">
+             </div>
+        
+         <?php 
+			foreach($listeReponse as $reponse){
+                if($reponse['fk_publication'] == $pub['fk_publication']){
+                   
+			?>
+            <div class="reponse">
                 <div class="rating_reponse">
                     <i class="glyphicon glyphicon-triangle-top" style="color:dimgrey;"></i> <br/>
                     <p style="padding-left:3px;padding-top:3px;font-weight: bold;">0</p>
                     <i class="glyphicon glyphicon-triangle-bottom" style="color:dimgrey;"></i> <br/>
-                    <i class="glyphicon glyphicon-fire" style="color:red;font-size:25px;margin-left:-5px;margin-top:5px;"></i>
                 </div>
                 <div style="width:600px;float: right;">
                     <hr/>
                     <p style="font-weight: bold;">
-                        <?= $listePub[$nbPosts]['texte'];?>
+                        <?php echo $reponse['texte']; ?>
                     </p>
 
                     <i class="glyphicon glyphicon-user"></i>
                     <h9>
-                        <?= $listeUsers[$nbPosts]['prenom'];?>
-                            <?= $listeUsers[$nbPosts]['nom'];?>
+                        <?php echo $reponse['prenom']; ?>
+                            <?php echo $reponse['nom']; ?>
                     </h9>
                 </div>
             </div>
-            <div class="ajouterReponse<?php echo $nbPosts?>">
+            <?php }} ?>
+            <div class="ajouterReponse">
                 <hr/>
-                <form id="form_<?php echo $nbPosts?>" method="post" action="/index.php">
-                    <textarea class="texte" rows="10" style="width:500px;height:150px;margin-top:10px;resize:none;"></textarea><br/>
+                <form id="form" method="post" action="index.php">
+                    <textarea class="texte" name="texteCommentaire" rows="10" style="width:500px;height:150px;margin-top:10px;resize:none;"></textarea><br/>
                     <button type="submit" style="color:dimgrey;margin-left:-420px;margin-top:5px;">Répondre</button>
                 </form>
-            </div>
-            <?php if($nbPosts == 0){ $nbPosts = 0;}  $nbPosts--;  } ?>
-        </div>
-        <br/>
-        <br/>
-        <br/>
-        <br/>
-        <br/>
-        <br/>
-        <br/>
+        </div> <?php } ?>
     </body>
-    <script>
-        var javaScriptVar = "<?php echo $jsVar; ?>";
-        while (javaScriptVar != 0) {
-            console.log(javaScriptVar);
-            $('#Répondre' + javaScriptVar).click(function() {
-                $('.ajouterReponse' + javaScriptVar).show();
-            });
-            javaScriptVar--;
-        }
-
-    </script>
-
     </html>
