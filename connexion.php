@@ -3,12 +3,11 @@
   $sql1 = "SELECT *,specialite.nom as nom_specialite FROM specialite  INNER JOIN utilisateur ON specialite.pk_specialite = utilisateur.fk_specialite;";
   $sql2 = "SELECT * FROM publication INNER JOIN utilisateur on publication.fk_utilisateur = utilisateur.pk_utilisateur WHERE publication.fk_type_publication = 1;";
   $sql3 = "SELECT * FROM publication INNER JOIN utilisateur on publication.fk_utilisateur = utilisateur.pk_utilisateur WHERE publication.fk_type_publication = 2;";
-  $sql4= "SELECT * FROM vote INNER JOIN publication on vote.fk_publication = publication.pk_publication where publication.fk_type_publication = 2;";
+
   $sql5= "SELECT count(*) FROM publication INNER JOIN utilisateur on publication.fk_utilisateur = utilisateur.pk_utilisateur;";
   $listeUsers = $bd->query($sql1)->fetchAll(PDO::FETCH_ASSOC);
   $listePub = $bd->query($sql2)->fetchAll(PDO::FETCH_ASSOC);
   $listeReponse = $bd->query($sql3)->fetchAll(PDO::FETCH_ASSOC);
-  $listeVotes = $bd->query($sql4)->fetchAll(PDO::FETCH_ASSOC);
   $nbPublicationsTotales = $bd->query($sql5)->fetch(PDO::FETCH_ASSOC);
 ?>
     <html>

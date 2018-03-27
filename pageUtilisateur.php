@@ -7,6 +7,7 @@ include 'connexion.php';
         .connexion {
             display: none;
         }
+
     </style>
 
     <head>
@@ -21,7 +22,7 @@ include 'connexion.php';
         <div style="display:inline;">
             <a href="index.php"><i class="glyphicon glyphicon-home" style="font-size:60px;float:right;margin-top:20px;margin-right:80px;color:white;padding:8px 12px 8px 9px;"></i></a>
             <p style="font-size:80px;text-align:center;background-color:#c2334a;padding-left:150px;color: white;">Page de
-                <?php echo $listeUsers[0]['prenom']; ?>
+                <?php echo $listeUsers[$_SESSION['cleUser']]['prenom']; ?>
                 <?php echo $listeUsers[0]['nom']; ?>
             </p>
         </div>
@@ -39,7 +40,7 @@ include 'connexion.php';
 
             <div style="margin-left:410px;margin-top:20px; border: solid 3px black;background-color: lightgray; width:600px;">
                 <p style="font-weight: bold;">
-                    <?= $listePub[0]['texte'];?>
+                    <?= $listePub[$S]['texte'];?>
                 </p>
                 <i class="glyphicon glyphicon-trash" style="font-size:25px;margin-left:520px;color:dimgray;padding-bottom:5px;"></i>
             </div>

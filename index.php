@@ -1,16 +1,16 @@
-
 <?php
 session_start();
-include_once 'connexion.php';
-var_dump($_SESSION['cleUser']);
-
+include 'connexion.php';
 if(isset($_POST['texteCommentaire']))
 {
     $nbPublicationsTotales +=1;
 $sql5 = "INSERT INTO publication (pk_publication,texte,fk_publication,fk_type_publication,fk_utilisateur,fk_specialite)
 VALUES ('".$nbPublicationsTotales."', '".$_POST['texteCommentaire']."','".$_POST['clePub'].",'".$_SESSION['cleUser']."', '".$_POST['specialite']."')";
 }
+$sql4= "SELECT valeur FROM vote INNER JOIN publication on vote.fk_publication = publication.pk_publication where vote.fk_utilisateur = '".$_SESSION['cleUser']."' AND publication.fk_type_publication = 2;";
+$listeVotes = $bd->query($sql4)->fetchAll(PDO::FETCH_ASSOC);
 
+$lien = "pageUtilisateur.php";
 ?>
 
     <!DOCTYPE html>
@@ -22,13 +22,13 @@ VALUES ('".$nbPublicationsTotales."', '".$_POST['texteCommentaire']."','".$_POST
             color: dodgerblue;
         }
 
-        .publication
-       {
+        .publication {
             background-color: lightgrey;
             width: 800px;
             padding: 20px;
             display: inline-block;
             margin-left: 320px;
+            margin-bottom: 15px;
             border: solid 1px #000;
         }
 
@@ -40,6 +40,7 @@ VALUES ('".$nbPublicationsTotales."', '".$_POST['texteCommentaire']."','".$_POST
             display: inline-block;
             margin-left: 320px;
             margin-top: -25px;
+            margin-bottom: 15px;
             border-left: solid 1px #000;
             border-bottom: solid 1px #000;
             border-right: solid 1px #000;
@@ -52,22 +53,18 @@ VALUES ('".$nbPublicationsTotales."', '".$_POST['texteCommentaire']."','".$_POST
             text-align: center;
             margin-left: 320px;
             margin-top: -25px;
+            margin-bottom: 25px;
             display: inline-block;
             border-left: solid 1px #000;
             border-bottom: solid 1px #000;
             border-right: solid 1px #000;
-        }
-
-        .rating {
-            float: left;
-            margin-left: 10px;
-            margin-top: 10px;
+            padding-bottom: 15px;
         }
 
         .rating_reponse {
             float: left;
             margin-left: 100px;
-            margin-top: 20px;
+            margin-top: 30px;
         }
 
         .connexion {
@@ -91,53 +88,74 @@ VALUES ('".$nbPublicationsTotales."', '".$_POST['texteCommentaire']."','".$_POST
         <br/>
         <div class="border">
             <?php
-       foreach($listePub as $pub)
-	{?>
-            <div class="publication">
-                <div style="width:700px;margin-left:50px;margin-top:20px;">
-                    <p style="font-weight: bold;">
-                        <?php echo $pub['texte']; ?>
-                    </p>
+       foreach($listePub as $pub) {
+           if($pub['pk_utilisateur']== $_SESSION['cleUser']) {
+                $lien = "pageUtilisateur.php";
+           }
+           if($pub['pk_utilisateur']!= $_SESSION['cleUser']) {
+                $lien = "autrePageUtilisateur.php";
+           }
+	?>
+                <div class="publication">
+                    <div style="width:700px;margin-left:50px;margin-top:20px;">
+                        <p style="font-weight: bold;">
+                            <?php echo $pub['texte']; ?>
+                        </p>
 
-                    <i class="glyphicon glyphicon-user"></i>
-                    <h9>
-                        <?php echo $pub['prenom']; ?>
-                            <?php echo $pub['nom'] ?>
-                    </h9>
+                        <i class="glyphicon glyphicon-user"></i>
+                        <h9>
+                            <a href="<?php echo $lien ?>" style="color: dodgerblue;">
+                                <?php echo $pub['prenom']; ?>
+                                <?php echo $pub['nom']; ?>
+                            </a>
+                        </h9>
+                    </div>
                 </div>
-             </div>
-        
-         <?php 
+
+                <?php
 			foreach($listeReponse as $reponse){
+                if($reponse['pk_utilisateur']== $_SESSION['cleUser']) {
+                    $lien = "pageUtilisateur.php";
+                }
+                if($reponse['pk_utilisateur']!= $_SESSION['cleUser']) {
+                    $lien = "autrePageUtilisateur.php";
+                }
                 if($reponse['fk_publication'] == $pub['fk_publication']){
-                   
-			?>
-            <div class="reponse">
-                <div class="rating_reponse">
-                    <i class="glyphicon glyphicon-triangle-top" style="color:dimgrey;"></i> <br/>
-                    <p style="padding-left:3px;padding-top:3px;font-weight: bold;">0</p>
-                    <i class="glyphicon glyphicon-triangle-bottom" style="color:dimgrey;"></i> <br/>
-                </div>
-                <div style="width:600px;float: right;">
-                    <hr/>
-                    <p style="font-weight: bold;">
-                        <?php echo $reponse['texte']; ?>
-                    </p>
 
-                    <i class="glyphicon glyphicon-user"></i>
-                    <h9>
-                        <?php echo $reponse['prenom']; ?>
-                            <?php echo $reponse['nom']; ?>
-                    </h9>
-                </div>
-            </div>
-            <?php }} ?>
-            <div class="ajouterReponse">
-                <hr/>
-                <form id="form" method="post" action="index.php">
-                    <textarea class="texte" name="texteCommentaire" rows="10" style="width:500px;height:150px;margin-top:10px;resize:none;"></textarea><br/>
-                    <button type="submit" style="color:dimgrey;margin-left:-420px;margin-top:5px;">Répondre</button>
-                </form>
-        </div> <?php } ?>
+			?>
+                    <div class="reponse">
+                        <div class="rating_reponse">
+                            <i class="glyphicon glyphicon-triangle-top" style="color:dimgrey;"></i> <br/>
+                            <p style="padding-left:3px;padding-top:3px;font-weight: bold;">
+                                //Vote ne marche pas (?)
+                                <?php echo $listeVotes ?>
+                            </p>
+                            <i class="glyphicon glyphicon-triangle-bottom" style="color:dimgrey;"></i> <br/>
+                        </div>
+                        <div style="width:600px;float: right;">
+                            <hr/>
+                            <p style="font-weight: bold;">
+                                <?php echo $reponse['texte']; ?>
+                            </p>
+
+                            <i class="glyphicon glyphicon-user"></i>
+                            <h9>
+                                <a href="<?php echo $lien ?>" style="color: dodgerblue;">
+                                    <?php echo $reponse['prenom']; ?>
+                                    <?php echo $reponse['nom']; ?>
+                                </a>
+                            </h9>
+                        </div>
+                    </div>
+                    <?php }} ?>
+                    <div class="ajouterReponse">
+                        <hr/>
+                        <form id="form" method="post" action="index.php">
+                            <textarea class="texte" name="texteCommentaire" rows="10" style="width:500px;height:150px;margin-top:10px;resize:none;"></textarea><br/>
+                            <button type="submit" style="color:dimgrey;margin-left:-420px;margin-top:5px;">Répondre</button>
+                        </form>
+                    </div>
+                    <?php } ?>
     </body>
+
     </html>
