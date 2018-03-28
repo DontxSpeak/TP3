@@ -12,10 +12,6 @@ $sql4= "SELECT valeur FROM vote INNER JOIN publication on vote.fk_publication = 
 $listeVotes = $bd->query($sql4)->fetchAll(PDO::FETCH_ASSOC);
 
 $lien = "pageUtilisateur.php";
-    
-$comma_separated = implode(",", $listeVotes);
-
-echo $comma_separated;
 ?>
 
     <!DOCTYPE html>
@@ -110,13 +106,9 @@ echo $comma_separated;
 
                         <i class="glyphicon glyphicon-user"></i>
                         <h9>
-                            <a href="<?php echo $lien ?>" style="color: dodgerblue;">
+                            <a href="<?php echo $lien ?>?cle=<?php echo $pub['pk_utilisateur'] ?>" style="color: dodgerblue;">
                                 <?php echo $pub['prenom']; ?>
                                 <?php echo $pub['nom']; ?>
-                                <?php
-                                    $_POST['cle'] = $pub['pk_utilisateur'];
-                                    echo $_POST['cle'];
-                                ?>
                             </a>
                         </h9>
                     </div>
@@ -137,7 +129,10 @@ echo $comma_separated;
                         <div class="rating_reponse">
                             <i class="glyphicon glyphicon-triangle-top" style="color:dimgrey;"></i> <br/>
                             <p style="padding-left:3px;padding-top:3px;font-weight: bold;">
-                                <?php echo $comma_separated ?>
+                                <?php
+                                foreach($listeVotes as $vote){
+                                echo $vote;
+                                } ?>
                             </p>
                             <i class="glyphicon glyphicon-triangle-bottom" style="color:dimgrey;"></i> <br/>
                         </div>
@@ -149,13 +144,9 @@ echo $comma_separated;
 
                             <i class="glyphicon glyphicon-user"></i>
                             <h9>
-                                <a href="<?php echo $lien ?>" style="color: dodgerblue;">
+                                <a href="<?php echo $lien ?>?cle=<?php echo $reponse['pk_utilisateur'] ?>" style="color: dodgerblue;">
                                     <?php echo $reponse['prenom']; ?>
                                     <?php echo $reponse['nom']; ?>
-                                    <?php
-                                        $_POST['cle'] = $reponse['pk_utilisateur'];
-                                        echo $_POST['cle'];
-                                    ?>
                                 </a>
                             </h9>
                         </div>
