@@ -2,6 +2,12 @@
 require 'connexion.php';
 session_start();
 if(isset($_SESSION['cleUser'])){
+    
+    
+    $sql7= "SELECT * FROM aledono_TP474.publication where fk_utilisateur ='" . $_GET['cle'] . "'and fk_type_publication = 1;";
+    $sql8 = "SELECT * FROM aledono_TP474.publication where fk_utilisateur ='" . $_GET['cle'] . "'and fk_type_publication = 3;";
+    $listeQuesUser = $bd->query($sql7)->fetchAll(PDO::FETCH_ASSOC);
+    $listePostsUser = $bd->query($sql8)->fetchAll(PDO::FETCH_ASSOC);
 ?>
     <!DOCTYPE html>
     <html>
@@ -39,12 +45,28 @@ if(isset($_SESSION['cleUser'])){
         </div>
 
         <div class="newsfeed" style="width:100%; text-align:center;">Publications
-
-            <div style="margin-left:410px;margin-top:20px; border: solid 3px black;background-color: lightgray; width:600px;">
-                <p style="font-weight: bold;">
-                    <?= $listePub[0]['texte'];?>
-                </p>
-            </div>
+            <?php
+        foreach($listeQuesUser as $quesUser) {
+        ?>
+                <div style="margin-left:410px;margin-top:20px; border: solid 3px black;background-color: lightgray; width:600px;">
+                    <p style="font-weight: bold;">
+                        <?php echo $quesUser['texte'];?>
+                    </p>
+                </div>
+                <?php
+        }
+            ?>
+                    <?php
+        foreach($listePostsUser as $postUser) {
+        ?>
+                        <div style="margin-left:410px;margin-top:20px; border: solid 3px black;background-color: lightgray; width:600px;">
+                            <p style="font-weight: bold;">
+                                <?php echo $postUser['texte'];?>
+                            </p>
+                        </div>
+                        <?php
+        }
+            ?>
         </div>
         <br/>
         <br/>
