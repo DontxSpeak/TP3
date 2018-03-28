@@ -1,6 +1,7 @@
 <?php
+require 'connexion.php';
 session_start();
-include 'connexion.php';
+if(isset($_SESSION['cleUser'])){
 if(isset($_POST['texteCommentaire']))
 {
     $nbPublicationsTotales +=1;
@@ -11,6 +12,10 @@ $sql4= "SELECT valeur FROM vote INNER JOIN publication on vote.fk_publication = 
 $listeVotes = $bd->query($sql4)->fetchAll(PDO::FETCH_ASSOC);
 
 $lien = "pageUtilisateur.php";
+    
+$comma_separated = implode(",", $listeVotes);
+
+echo $comma_separated;
 ?>
 
     <!DOCTYPE html>
@@ -74,6 +79,7 @@ $lien = "pageUtilisateur.php";
     </style>
 
     <head>
+        <title>Fil d'actualité</title>
         <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
         <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
@@ -107,6 +113,10 @@ $lien = "pageUtilisateur.php";
                             <a href="<?php echo $lien ?>" style="color: dodgerblue;">
                                 <?php echo $pub['prenom']; ?>
                                 <?php echo $pub['nom']; ?>
+                                <?php
+                                    $_POST['cle'] = $pub['pk_utilisateur'];
+                                    echo $_POST['cle'];
+                                ?>
                             </a>
                         </h9>
                     </div>
@@ -127,8 +137,7 @@ $lien = "pageUtilisateur.php";
                         <div class="rating_reponse">
                             <i class="glyphicon glyphicon-triangle-top" style="color:dimgrey;"></i> <br/>
                             <p style="padding-left:3px;padding-top:3px;font-weight: bold;">
-                                //Vote ne marche pas (?)
-                                <?php echo $listeVotes ?>
+                                <?php echo $comma_separated ?>
                             </p>
                             <i class="glyphicon glyphicon-triangle-bottom" style="color:dimgrey;"></i> <br/>
                         </div>
@@ -143,6 +152,10 @@ $lien = "pageUtilisateur.php";
                                 <a href="<?php echo $lien ?>" style="color: dodgerblue;">
                                     <?php echo $reponse['prenom']; ?>
                                     <?php echo $reponse['nom']; ?>
+                                    <?php
+                                        $_POST['cle'] = $reponse['pk_utilisateur'];
+                                        echo $_POST['cle'];
+                                    ?>
                                 </a>
                             </h9>
                         </div>
@@ -159,3 +172,8 @@ $lien = "pageUtilisateur.php";
     </body>
 
     </html>
+    <?php
+  }
+  else
+    require 'connexion.php';
+?>

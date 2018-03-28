@@ -1,5 +1,7 @@
 <?php
-include 'connexion.php';
+require 'connexion.php';
+session_start();
+if(isset($_SESSION['cleUser'])){
 ?>
     <!DOCTYPE html>
     <html>
@@ -24,6 +26,7 @@ include 'connexion.php';
             <p style="font-size:80px;text-align:center;background-color:#c2334a;padding-left:150px;color: white;">Page de
                 <?php echo $listeUsers[0]['prenom']; ?>
                 <?php echo $listeUsers[0]['nom']; ?>
+                <?php echo $_POST['cle']; ?>
             </p>
         </div>
         <div class="en-tête" style="width:100%; text-align:center;margin-bottom:200px; background-color: #c2334a;color:#FFFF;padding:10px;margin-top:-15px;">
@@ -43,7 +46,6 @@ include 'connexion.php';
                     <?= $listePub[0]['texte'];?>
                 </p>
             </div>
-
         </div>
         <br/>
         <br/>
@@ -54,3 +56,9 @@ include 'connexion.php';
     </body>
 
     </html>
+
+    <?php
+  }
+  else
+    require 'connexion.php';
+?>
