@@ -8,7 +8,11 @@ if(isset($_POST['texteCommentaire']))
 $sql5 = "INSERT INTO publication (pk_publication,texte,fk_publication,fk_type_publication,fk_utilisateur,fk_specialite)
 VALUES ('".$nbPublicationsTotales."', '".$_POST['texteCommentaire']."','".$_POST['clePub'].",'".$_SESSION['cleUser']."', '".$_POST['specialite']."')";
 }
-$sql4= "SELECT valeur FROM vote INNER JOIN publication on vote.fk_publication = publication.pk_publication where vote.fk_utilisateur = '".$_SESSION['cleUser']."' AND publication.fk_type_publication = 2;";
+$sql4= "SELECT SUM(valeur) as val FROM vote v
+INNER JOIN publication p ON v.fk_publication = p.pk_publication
+INNER JOIN type_publication tp ON tp.pk_type_publication = p.fk_type_publication
+WHERE tp.pk_type_publication = 2
+GROUP BY pk_publication;";
 $listeVotes = $bd->query($sql4)->fetchAll(PDO::FETCH_ASSOC);
 
 $lien = "pageUtilisateur.php";
@@ -79,12 +83,32 @@ $lien = "pageUtilisateur.php";
         <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
         <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+        <!-- Global site tag (gtag.js) - Google Analytics -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=UA-116674960-1"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+
+            function gtag() {
+                dataLayer.push(arguments);
+            }
+            gtag('js', new Date());
+
+            gtag('config', 'UA-116674960-1');
+
+        </script>
+
     </head>
 
     <body style="background-color: rgb(242,242,242);">
         <div style="display:inline;">
-            <a href="pageUtilisateur.php"><i class="glyphicon glyphicon-user" style="font-size:60px;float:right;margin-top:20px;margin-right:80px;padding: 2px 3px 3px 2px; color: #FFF;" href="pageUtilisateur.php"></i></a>
-            <p style="font-size:80px;text-align:center;background-color:#c2334a;padding-left:150px;color:white;">Fil d'actualité</p>
+            <?php
+                print_r ($listeVotes);
+                foreach($listeVotes as $vote){
+                    echo $vote['val'];
+                }
+            ?>
+                <a href="pageUtilisateur.php"><i class="glyphicon glyphicon-user" style="font-size:60px;float:right;margin-top:20px;margin-right:80px;padding: 2px 3px 3px 2px; color: #FFF;" href="pageUtilisateur.php"></i></a>
+                <p style="font-size:80px;text-align:center;background-color:#c2334a;padding-left:150px;color:white;">Fil d'actualité</p>
         </div>
         <br/>
         <br/>
@@ -128,11 +152,7 @@ $lien = "pageUtilisateur.php";
                     <div class="reponse">
                         <div class="rating_reponse">
                             <i class="glyphicon glyphicon-triangle-top" style="color:dimgrey;"></i> <br/>
-                            <p style="padding-left:3px;padding-top:3px;font-weight: bold;">
-                                <?php
-                                foreach($listeVotes as $vote){
-                                echo $vote;
-                                } ?>
+                            <p style="padding-left:3px;padding-top:3px;font-weight: bold;">0
                             </p>
                             <i class="glyphicon glyphicon-triangle-bottom" style="color:dimgrey;"></i> <br/>
                         </div>
@@ -151,7 +171,7 @@ $lien = "pageUtilisateur.php";
                             </h9>
                         </div>
                     </div>
-                    <?php }} ?>
+                    <?php }} if($pub['fk_type_publication'] != 3) { ?>
                     <div class="ajouterReponse">
                         <hr/>
                         <form id="form" method="post" action="index.php">
@@ -159,7 +179,7 @@ $lien = "pageUtilisateur.php";
                             <button type="submit" style="color:dimgrey;margin-left:-420px;margin-top:5px;">Répondre</button>
                         </form>
                     </div>
-                    <?php } ?>
+                    <?php  }} ?>
     </body>
 
     </html>
