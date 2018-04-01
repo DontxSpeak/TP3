@@ -13,5 +13,6 @@ if (is_null($resultat))
     $cleUser = $resultat['pk_utilisateur'];
 
 $_SESSION['cleUser'] =  $cleUser;
+$_SESSION['specialite'] = intval($resultat['fk_specialite']);
 header("Location:index.php");
 ?>

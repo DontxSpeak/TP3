@@ -2,12 +2,6 @@
 require 'connexion.php';
 session_start();
 if(isset($_SESSION['cleUser'])){
-if(isset($_POST['texteCommentaire']))
-{
-    $nbPublicationsTotales +=1;
-$sql5 = "INSERT INTO publication (pk_publication,texte,fk_publication,fk_type_publication,fk_utilisateur,fk_specialite)
-VALUES ('".$nbPublicationsTotales."', '".$_POST['texteCommentaire']."','".$_POST['clePub'].",'".$_SESSION['cleUser']."', '".$_POST['specialite']."')";
-}
 $sql4= "SELECT SUM(valeur) as val FROM vote v
 INNER JOIN publication p ON v.fk_publication = p.pk_publication
 INNER JOIN type_publication tp ON tp.pk_type_publication = p.fk_type_publication
@@ -102,7 +96,6 @@ $lien = "pageUtilisateur.php";
     <body style="background-color: rgb(242,242,242);">
         <div style="display:inline;">
             <?php
-                print_r ($listeVotes);
                 foreach($listeVotes as $vote){
                     echo $vote['val'];
                 }
@@ -171,15 +164,16 @@ $lien = "pageUtilisateur.php";
                             </h9>
                         </div>
                     </div>
-                    <?php }} if($pub['fk_type_publication'] != 3) { ?>
+                    <?php }} ?>
                     <div class="ajouterReponse">
                         <hr/>
-                        <form id="form" method="post" action="index.php">
+                        <form id="form" method="post" action="mc_SoumissionCommentaire.php">
                             <textarea class="texte" name="texteCommentaire" rows="10" style="width:500px;height:150px;margin-top:10px;resize:none;"></textarea><br/>
                             <button type="submit" style="color:dimgrey;margin-left:-420px;margin-top:5px;">Répondre</button>
+                             <input type="hidden" value="<?php echo $pub['fk_publication']; ?>" name="clePub">
                         </form>
                     </div>
-                    <?php  }} ?>
+                    <?php  } ?>
     </body>
 
     </html>
