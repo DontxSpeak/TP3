@@ -59,11 +59,8 @@ $publications = $bd->query($sqlPublicationsUser)->fetchAll();
         </div>
 
         <?php 
-             if($publication['fk_type_publication'] != 2 && count($publication) == 0){
-             echo "<div class='newsfeed' style='width:100%; text-align:center;'>Aucune publication(s) pour cet utilisateur.</div>"; 
-             }
                 foreach($publications as $publication){ 
-                    if($publication['fk_type_publication'] != 2 && count($publication) >0)
+                    if($publication['fk_type_publication'] != 2 && count($publications) >0)
                     {?>
         <div class="newsfeed" style="width:100%; text-align:center;">Publications
             <div style="margin-left:410px;margin-top:20px; border: solid 3px black;background-color: lightgray; width:600px;">
