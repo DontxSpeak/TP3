@@ -165,6 +165,7 @@ $lien = "pageUtilisateur.php";
                         </div>
                     </div>
                     <?php }} ?>
+                    <?php if($pub['fk_type_publication'] != 3) {?>
                     <div class="ajouterReponse">
                         <hr/>
                         <form id="form" method="post" action="mc_SoumissionCommentaire.php">
@@ -173,7 +174,7 @@ $lien = "pageUtilisateur.php";
                              <input type="hidden" value="<?php echo $pub['fk_publication']; ?>" name="clePub">
                         </form>
                     </div>
-                    <?php  } ?>
+                    <?php  } }?>
     </body>
 
     </html>
