@@ -4,7 +4,9 @@ include("connexion.php");
 $cleUser =0;
 $nom = $_POST['nom'];
 $prenom = $_POST['prenom'];
-$sql6 = "SELECT * FROM utilisateur WHERE nom  = '" . $nom . "';";
+$nbSession = $_POST['nbSession'];
+$specialite = $_POST['specialite'];
+$sql6 = "SELECT * FROM utilisateur WHERE prenom = '" . $prenom . "' AND nom  = '" . $nom . "' AND nb_session  = '" . $nbSession . "'  AND fk_specialite  = '" . $specialite . "';";
 $resultat = $bd->query($sql6)->fetch(PDO::FETCH_ASSOC);
 
 if (is_null($resultat))  
