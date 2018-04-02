@@ -35,6 +35,22 @@ $publications = $bd->query($sqlPublicationsUser)->fetchAll();
 
             gtag('config', 'UA-116674960-1');
         </script>
+        <!-- Google Code for Aller sur page personnelle Conversion Page -->
+<script type="text/javascript">
+/* <![CDATA[ */
+var google_conversion_id = 862205090;
+var google_conversion_label = "MZNqCLzo238QoumQmwM";
+var google_remarketing_only = false;
+/* ]]> */
+</script>
+<script type="text/javascript" src="//www.googleadservices.com/pagead/conversion.js">
+</script>
+<noscript>
+<div style="display:inline;">
+<img height="1" width="1" style="border-style:none;" alt="" src="//www.googleadservices.com/pagead/conversion/862205090/?label=MZNqCLzo238QoumQmwM&amp;guid=ON&amp;script=0"/>
+</div>
+</noscript>
+
 
     </head>
 
