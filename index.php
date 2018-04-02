@@ -2,12 +2,6 @@
 require 'connexion.php';
 session_start();
 if(isset($_SESSION['cleUser'])){
-if(isset($_POST['texteCommentaire']))
-{
-    $nbPublicationsTotales +=1;
-$sql5 = "INSERT INTO publication (pk_publication,texte,fk_publication,fk_type_publication,fk_utilisateur,fk_specialite)
-VALUES ('".$nbPublicationsTotales."', '".$_POST['texteCommentaire']."','".$_POST['clePub'].",'".$_SESSION['cleUser']."', '".$_POST['specialite']."')";
-}
 $sql4= "SELECT SUM(valeur) as val FROM vote v
 INNER JOIN publication p ON v.fk_publication = p.pk_publication where p.fk_type_publication = 2 GROUP BY p.pk_publication;";
 $listeVotes = $bd->query($sql4)->fetchAll(PDO::FETCH_ASSOC);
@@ -102,8 +96,18 @@ $lien = "pageUtilisateur.php";
 
     <body style="background-color: rgb(242,242,242);">
         <div style="display:inline;">
+<<<<<<< HEAD
             <a href="pageUtilisateur.php"><i class="glyphicon glyphicon-user" style="font-size:60px;float:right;margin-top:20px;margin-right:80px;padding: 2px 3px 3px 2px; color: #FFF;" href="pageUtilisateur.php"></i></a>
             <p style="font-size:80px;text-align:center;background-color:#c2334a;padding-left:150px;color:white;">Fil d'actualité</p>
+=======
+            <?php
+                foreach($listeVotes as $vote){
+                    echo $vote['val'];
+                }
+            ?>
+                <a href="pageUtilisateur.php"><i class="glyphicon glyphicon-user" style="font-size:60px;float:right;margin-top:20px;margin-right:80px;padding: 2px 3px 3px 2px; color: #FFF;" href="pageUtilisateur.php"></i></a>
+                <p style="font-size:80px;text-align:center;background-color:#c2334a;padding-left:150px;color:white;">Fil d'actualité</p>
+>>>>>>> 306effe4cacccae30cebe7ec2b41d636735abb54
         </div>
         <br/>
         <br/>
@@ -189,15 +193,16 @@ $lien = "pageUtilisateur.php";
                             </h9>
                         </div>
                     </div>
-                    <?php }} if($pub['fk_type_publication'] != 3) { ?>
+                    <?php }} ?>
                     <div class="ajouterReponse">
                         <hr/>
-                        <form id="form" method="post" action="index.php">
+                        <form id="form" method="post" action="mc_SoumissionCommentaire.php">
                             <textarea class="texte" name="texteCommentaire" rows="10" style="width:500px;height:150px;margin-top:10px;resize:none;"></textarea><br/>
                             <button type="submit" style="color:dimgrey;margin-left:-420px;margin-top:5px;">Répondre</button>
+                             <input type="hidden" value="<?php echo $pub['fk_publication']; ?>" name="clePub">
                         </form>
                     </div>
-                    <?php  }} ?>
+                    <?php  } ?>
     </body>
 
     </html>
