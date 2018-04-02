@@ -7,6 +7,8 @@ $sqlPageUser = "SELECT * FROM utilisateur where pk_utilisateur = '".intval($cleU
 $utilisateurActuel = $bd->query($sqlPageUser)->fetch();
 $sqlPublicationsUser = "SELECT * FROM publication INNER JOIN utilisateur on publication.fk_utilisateur = utilisateur.pk_utilisateur WHERE publication.fk_utilisateur = '".$cleUser."';";
 $publications = $bd->query($sqlPublicationsUser)->fetchAll();
+$sqlSpecialite = "SELECT * FROM specialite where pk_specialite = '".$utilisateurActuel['fk_specialite']."';";
+$resultatSpecialite = $bd->query($sqlSpecialite)->fetch();
 
 ?>
     <!DOCTYPE html>
@@ -67,7 +69,7 @@ var google_remarketing_only = false;
         <div class="en-tête" style="width:100%; text-align:center;margin-bottom:200px; background-color: #c2334a;color:#FFFF;padding:10px;margin-top:-15px;">
             <hr/>
             <h3 style="text-align:center;"> Spécialité :
-                <?php echo $utilisateurActuel['nom_specialite'] ?>
+                <?php echo $resultatSpecialite['nom'] ?>
             </h3>
             <h3 style="text-align:center;"> Nombre de session:
                 <?php echo $utilisateurActuel['nb_session']; ?>
