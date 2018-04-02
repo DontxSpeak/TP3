@@ -5,6 +5,7 @@ if(isset($_SESSION['cleUser'])){
 $sql4= "SELECT SUM(valeur) as val FROM vote v
 INNER JOIN publication p ON v.fk_publication = p.pk_publication where p.fk_type_publication = 2 GROUP BY p.pk_publication;";
 $listeVotes = $bd->query($sql4)->fetchAll(PDO::FETCH_ASSOC);
+$sqlspecial = "SELECT nom FROM aledono_TP474.publication inner join specialite on publication.fk_specialite = specialite.pk_specialite;";
 
 $lien = "pageUtilisateur.php";
 ?>
@@ -144,15 +145,15 @@ var google_remarketing_only = false;
                         <p style="margin-left:580px;margin-top:-30px;">
                             <?php
                                 if($pub['fk_type_publication'] == 1) {
-                                    if($pub['fk_specialite'] == 1)
+                                    if($pub['specialitePub'] == 1)
                                         echo "Spécialité : SQL";
-                                        if($pub['fk_specialite'] == 2)
+                                        if($pub['specialitePub'] == 2)
                                             echo " Spécialité : PHP";
-                                            if($pub['fk_specialite'] == 3)
+                                            if($pub['specialitePub'] == 3)
                                                 echo " Spécialité : HTML";
-                                                if($pub['fk_specialite'] == 4)
+                                                if($pub['specialitePub'] == 4)
                                                     echo "Spécialité : COBOL";
-                                                    if($pub['fk_specialite'] == 5)
+                                                    if($pub['specialitePub'] == 5)
                                                         echo " Spécialité : C#"; }
                                 ?>
                         </p>

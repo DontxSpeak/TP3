@@ -1,7 +1,7 @@
 <?php
   include 'bd.php';
   $sql1 = "SELECT *,specialite.nom as nom_specialite FROM specialite  INNER JOIN utilisateur ON specialite.pk_specialite = utilisateur.fk_specialite;";
-  $sql2 = "SELECT * FROM publication INNER JOIN utilisateur on publication.fk_utilisateur = utilisateur.pk_utilisateur WHERE publication.fk_type_publication = 1 or publication.fk_type_publication = 3;";
+  $sql2 = "SELECT *, publication.fk_specialite as specialitePub FROM publication INNER JOIN utilisateur on publication.fk_utilisateur = utilisateur.pk_utilisateur WHERE publication.fk_type_publication = 1 or publication.fk_type_publication = 3;";
   $sql3 = "SELECT * FROM publication INNER JOIN utilisateur on publication.fk_utilisateur = utilisateur.pk_utilisateur WHERE publication.fk_type_publication = 2;";
 
   $sql5= "SELECT count(*) FROM publication INNER JOIN utilisateur on publication.fk_utilisateur = utilisateur.pk_utilisateur;";
@@ -96,11 +96,11 @@ var google_remarketing_only = false;
                 <input type="number" name="nbSession" min="1" max="50" style="width:175px;" required><br/>
                 <p>Spécialité :</p>
                 <select name="specialite" style="width:175px;" required><br/>
-                
+
                 <option value="1">SQL</option>
                 <option value="2">PHP</option>
                 <option value="3" >HTML</option>
-                <option value="4">COBOL</option>                
+                <option value="4">COBOL</option>
                 <option value="5">C#</option>
             </select>
                 <br/>
