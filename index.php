@@ -96,18 +96,8 @@ $lien = "pageUtilisateur.php";
 
     <body style="background-color: rgb(242,242,242);">
         <div style="display:inline;">
-<<<<<<< HEAD
             <a href="pageUtilisateur.php"><i class="glyphicon glyphicon-user" style="font-size:60px;float:right;margin-top:20px;margin-right:80px;padding: 2px 3px 3px 2px; color: #FFF;" href="pageUtilisateur.php"></i></a>
             <p style="font-size:80px;text-align:center;background-color:#c2334a;padding-left:150px;color:white;">Fil d'actualité</p>
-=======
-            <?php
-                foreach($listeVotes as $vote){
-                    echo $vote['val'];
-                }
-            ?>
-                <a href="pageUtilisateur.php"><i class="glyphicon glyphicon-user" style="font-size:60px;float:right;margin-top:20px;margin-right:80px;padding: 2px 3px 3px 2px; color: #FFF;" href="pageUtilisateur.php"></i></a>
-                <p style="font-size:80px;text-align:center;background-color:#c2334a;padding-left:150px;color:white;">Fil d'actualité</p>
->>>>>>> 306effe4cacccae30cebe7ec2b41d636735abb54
         </div>
         <br/>
         <br/>
