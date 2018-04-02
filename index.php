@@ -91,13 +91,27 @@ $lien = "pageUtilisateur.php";
             gtag('config', 'UA-116674960-1');
 
         </script>
+        <!-- Google Code for R&eacute;pondre &agrave; un commentaire Conversion Page -->
+<script type="text/javascript">
+/* <![CDATA[ */
+var google_conversion_id = 862205090;
+var google_conversion_label = "Bn-tCLui8n8QoumQmwM";
+var google_remarketing_only = false;
+/* ]]> */
+</script>
+<script type="text/javascript" src="//www.googleadservices.com/pagead/conversion.js">
+</script>
+<noscript>
+<div style="display:inline;">
+<img height="1" width="1" style="border-style:none;" alt="" src="//www.googleadservices.com/pagead/conversion/862205090/?label=Bn-tCLui8n8QoumQmwM&amp;guid=ON&amp;script=0"/>
+</div>
+</noscript>
+
 
     </head>
 
     <body style="background-color: rgb(242,242,242);">
         <div style="display:inline;">
-            <a href="pageUtilisateur.php"><i class="glyphicon glyphicon-user" style="font-size:60px;float:right;margin-top:20px;margin-right:80px;padding: 2px 3px 3px 2px; color: #FFF;" href="pageUtilisateur.php"></i></a>
-            <p style="font-size:80px;text-align:center;background-color:#c2334a;padding-left:150px;color:white;">Fil d'actualité</p>
                 <a href="pageUtilisateur.php"><i class="glyphicon glyphicon-user" style="font-size:60px;float:right;margin-top:20px;margin-right:80px;padding: 2px 3px 3px 2px; color: #FFF;" href="pageUtilisateur.php"></i></a>
                 <p style="font-size:80px;text-align:center;background-color:#c2334a;padding-left:150px;color:white;">Fil d'actualité</p>
         </div>
@@ -185,16 +199,16 @@ $lien = "pageUtilisateur.php";
                             </h9>
                         </div>
                     </div>
-                    <?php }} ?>
+                    <?php }} if($pub['fk_type_publication'] != 3) { ?>
                     <div class="ajouterReponse">
                         <hr/>
-                        <form id="form" method="post" action="mc_SoumissionCommentaire.php">
+                        <form id="form" method="post" action="mc_soumissionCommentaire.php">
                             <textarea class="texte" name="texteCommentaire" rows="10" style="width:500px;height:150px;margin-top:10px;resize:none;"></textarea><br/>
                             <button type="submit" style="color:dimgrey;margin-left:-420px;margin-top:5px;">Répondre</button>
                              <input type="hidden" value="<?php echo $pub['fk_publication']; ?>" name="clePub">
                         </form>
                     </div>
-                    <?php  } ?>
+                    <?php  }} ?>
     </body>
 
     </html>
