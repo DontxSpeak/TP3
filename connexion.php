@@ -65,11 +65,12 @@
                 <input type="number" name="nbSession" min="1" max="50" style="width:175px;" required><br/>
                 <p>Spécialité :</p>
                 <select name="specialite" style="width:175px;" required><br/>
-                <option value="HTML" >HTML</option>
-                <option value="SQL">SQL</option>
-                <option value="COBOL">COBOL</option>
-                <option value="PHP">PHP</option>
-                <option value="C#">C#</option>
+                
+                <option value="1">SQL</option>
+                <option value="2">PHP</option>
+                <option value="3" >HTML</option>
+                <option value="4">COBOL</option>                
+                <option value="5">C#</option>
             </select>
                 <br/>
                 <br/>
