@@ -112,8 +112,13 @@ var google_remarketing_only = false;
 
     <body style="background-color: rgb(242,242,242);">
         <div style="display:inline;">
+<<<<<<< HEAD
                 <a href="pageUtilisateur.php"><i class="glyphicon glyphicon-user" style="font-size:60px;float:right;margin-top:20px;margin-right:80px;padding: 2px 3px 3px 2px; color: #FFF;" href="pageUtilisateur.php"></i></a>
                 <p style="font-size:80px;text-align:center;background-color:#c2334a;padding-left:150px;color:white;">Fil d'actualité</p>
+=======
+            <a href="pageUtilisateur.php"><i class="glyphicon glyphicon-user" style="font-size:60px;float:right;margin-top:20px;margin-right:80px;padding: 2px 3px 3px 2px; color: #FFF;" href="pageUtilisateur.php"></i></a>
+            <p style="font-size:80px;text-align:center;background-color:#c2334a;padding-left:150px;color:white;">Fil d'actualité</p>
+>>>>>>> 8519ba7d87c8dd1c208ad35880dbb40a2a6acb8d
         </div>
         <br/>
         <br/>
@@ -199,7 +204,12 @@ var google_remarketing_only = false;
                             </h9>
                         </div>
                     </div>
+<<<<<<< HEAD
                     <?php }} if($pub['fk_type_publication'] != 3) { ?>
+=======
+                    <?php }} ?>
+                    <?php if($pub['fk_type_publication'] != 3) {?>
+>>>>>>> 8519ba7d87c8dd1c208ad35880dbb40a2a6acb8d
                     <div class="ajouterReponse">
                         <hr/>
                         <form id="form" method="post" action="mc_soumissionCommentaire.php">
@@ -208,7 +218,11 @@ var google_remarketing_only = false;
                              <input type="hidden" value="<?php echo $pub['fk_publication']; ?>" name="clePub">
                         </form>
                     </div>
+<<<<<<< HEAD
                     <?php  }} ?>
+=======
+                    <?php  } }?>
+>>>>>>> 8519ba7d87c8dd1c208ad35880dbb40a2a6acb8d
     </body>
 
     </html>

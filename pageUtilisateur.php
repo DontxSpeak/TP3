@@ -2,6 +2,12 @@
 require 'connexion.php';
 session_start();
 if(isset($_SESSION['cleUser'])){
+$cleUser = $_SESSION['cleUser'];
+$sqlPageUser = "SELECT * FROM utilisateur where pk_utilisateur = '".intval($cleUser)."';";
+$utilisateurActuel = $bd->query($sqlPageUser)->fetch();
+$sqlPublicationsUser = "SELECT * FROM publication INNER JOIN utilisateur on publication.fk_utilisateur = utilisateur.pk_utilisateur WHERE publication.fk_utilisateur = '".$cleUser."';";
+$publications = $bd->query($sqlPublicationsUser)->fetchAll();
+
 ?>
     <!DOCTYPE html>
     <html>
@@ -9,7 +15,6 @@ if(isset($_SESSION['cleUser'])){
         .connexion {
             display: none;
         }
-
     </style>
 
     <head>
@@ -29,7 +34,6 @@ if(isset($_SESSION['cleUser'])){
             gtag('js', new Date());
 
             gtag('config', 'UA-116674960-1');
-
         </script>
         <!-- Google Code for Aller sur page personnelle Conversion Page -->
 <script type="text/javascript">
@@ -52,44 +56,57 @@ var google_remarketing_only = false;
 
     <body class="fondEcran" style="background-color: rgb(242,242,242);">
         <div style="display:inline;">
-            <a href="index.php"><i class="glyphicon glyphicon-home" style="font-size:60px;float:right;margin-top:20px;margin-right:80px;color:white;padding:8px 12px 8px 9px;"></i></a>
+            <a href="index.php">
+                <i class="glyphicon glyphicon-home" style="font-size:60px;float:right;margin-top:20px;margin-right:80px;color:white;padding:8px 12px 8px 9px;"></i>
+            </a>
             <p style="font-size:80px;text-align:center;background-color:#c2334a;padding-left:150px;color: white;">Page de
-                <?php echo $listeUsers[$_SESSION['cleUser'] -1]['prenom']; ?>
-                <?php echo $listeUsers[$_SESSION['cleUser'] -1]['nom']; ?>
+                <?php echo $utilisateurActuel['prenom']; ?>
+                <?php echo $utilisateurActuel['nom']; ?>
             </p>
         </div>
         <div class="en-tête" style="width:100%; text-align:center;margin-bottom:200px; background-color: #c2334a;color:#FFFF;padding:10px;margin-top:-15px;">
             <hr/>
             <h3 style="text-align:center;"> Spécialité :
-                <?php echo $listeUsers[$_SESSION['cleUser'] -1]['nom_specialite'] ?>
+                <?php echo $utilisateurActuel['nom_specialite'] ?>
             </h3>
             <h3 style="text-align:center;"> Nombre de session:
-                <?php echo $listeUsers[$_SESSION['cleUser'] -1]['nb_session']; ?>
+                <?php echo $utilisateurActuel['nb_session']; ?>
             </h3>
         </div>
 
+        <?php 
+             if($publication['fk_type_publication'] != 2 && count($publication) == 0){
+             echo "<div class='newsfeed' style='width:100%; text-align:center;'>Aucune publication(s) pour cet utilisateur.</div>"; 
+             }
+                foreach($publications as $publication){ 
+                    if($publication['fk_type_publication'] != 2 && count($publication) >0)
+                    {?>
         <div class="newsfeed" style="width:100%; text-align:center;">Publications
-
             <div style="margin-left:410px;margin-top:20px; border: solid 3px black;background-color: lightgray; width:600px;">
                 <p style="font-weight: bold;">
-                    <?= $listePub[0]['texte'];?>
+
+                    <?= $publication['texte'];?>
                 </p>
             </div>
-
+            <?php }} ?>
             <div class="publication" style="margin-top:40px; border:solid 1px #000;width:400px;margin-left:515px;background-color: lightgray;">
-                <form method="post" action="/pageUtilisateur.php">
-                    <textarea class="texte" rows="10" style="width:350px;height:150px;margin-top:10px;resize:none;"></textarea><br/>
-                    <input type="radio" name="Groupe1" value="Post" checked> Post
-                    <input type="radio" name="Groupe1" value="Question" id="question" style="margin-left:5px;">Question <br/>
+                <form method="post" action="mc_publierPublication.php">
+                    <textarea class="texte" rows="10" style="width:350px;height:150px;margin-top:10px;resize:none;" name="textePublication"></textarea>
+                    <br/>
+                    <input type="radio" name="radio" value="post" id="post" checked> Post
+                    <input type="radio" name="radio" value="question" id="question" style="margin-left:5px;">Question
+                    <br/>
+
                     <div class="Question" style="display:none;">
                         <p>Veuillez entrer la spécialité selon le sujet votre question :</p>
-                        <select name="Specialite" style="width:175px;" required><br/>
-                        <option value="HTML">HTML</option>
-                        <option value="SQL">SQL</option>
-                        <option value="COBOL">COBOL</option>
-                        <option value="PHP">PHP</option>
-                        <option value="C#">C#</option>
-                    </select>
+                        <select name="specialite" style="width:175px;" required>
+                            <br/>
+                            <option value="1">HTML</option>
+                            <option value="2">SQL</option>
+                            <option value="3">COBOL</option>
+                            <option value="4">PHP</option>
+                            <option value="5">C#</option>
+                        </select>
                     </div>
                     <button type="submit" style="margin-top:5px;">Publier</button>
                     <br/>
@@ -104,17 +121,17 @@ var google_remarketing_only = false;
 
     </body>
     <script>
-        $(document).ready(function() {
-            $('input[type="radio"][value="Question"]').click(function() {
+        $(document).ready(function () {
+            $('#question').click(function () {
                 $('.Question').show();
-
+                $('#post').prop('checked', false);
             });
-            $('input[type="radio"][value="Post"]').click(function() {
+            $('#post').click(function () {
                 $('.Question').hide();
+                $('#question').prop('checked', false);
 
             });
         });
-
     </script>
 
     </html>

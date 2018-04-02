@@ -3,6 +3,7 @@ session_start();
 include("bd.php");
 $commentaire = $_POST['texteCommentaire'];
 $clePub = $_POST['clePub'];
+$_SESSION['clePub'] =$_POST['clePub'];
 $specialite = intval($_SESSION['specialite']);
 $cleUser = intval($_SESSION['cleUser']);
 $sqlNbPub = "SELECT count(*) FROM publication;";
