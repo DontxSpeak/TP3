@@ -4,12 +4,11 @@ session_start();
 $cleUser = $_SESSION['cleUser'];
 $sqlUtilisateur = "SELECT * FROM utilisateur where pk_utilisateur = '".intval($cleUser)."';";
 $utilisateurActuel = $bd->query($sqlUtilisateur)->fetch();
-var_dump($_POST['specialite']);
 if(isset($_POST['radio']))
 {
     if($_POST['radio'] == 'post')
     {
-        $specialite = 7;
+        $specialite = 0;
         $typePub = 3;
     }
     if($_POST['radio'] == 'question')
